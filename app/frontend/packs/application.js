@@ -17,6 +17,8 @@ ActiveStorage.start()
 
 // vue.js
 
+import list from '../components/list.vue'
+
 document.addEventListener('turbolinks:load', function(event){
 	let el = document.querySelector("#board");
 	if(el){
@@ -25,7 +27,8 @@ document.addEventListener('turbolinks:load', function(event){
 			data:{
 				lists: JSON.parse(el.dataset.lists)
 
-			}
+			},
+			components: { list }
 		});
 	}
 })
