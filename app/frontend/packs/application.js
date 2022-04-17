@@ -18,17 +18,38 @@ ActiveStorage.start()
 // vue.js
 
 import list from '../components/list.vue'
+import draggable from 'vuedraggable'
+import store from 'stores/list.js'
+import { mapGetters, mapActions } from 'vuex'
 
 document.addEventListener('turbolinks:load', function(event){
 	let el = document.querySelector("#board");
 	if(el){
 		new Vue({
 			el,
-			data:{
-				lists: JSON.parse(el.dataset.lists)
+			store,
+      computed: {
+        // ...mapGetters(["lists"])
+        lists: {
+          get() {
+            return this.$store.state.lists;
+          }, 
 
-			},
-			components: { list }
+          set(value) {
+            this.$store.commit('UPDATE_LISTS', value);
+          }
+        }
+      },
+			components: { list , draggable },
+      methods: {
+        ...mapActions(["loadList", "moveList"]), 
+      }, 
+			beforeMount(){
+				this.loadList();
+
+
+
+			}
 		});
 	}
 })
